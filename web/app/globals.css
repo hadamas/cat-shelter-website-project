@@ -2,25 +2,77 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #3d2410;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Identidade visual do gatil */
+  --color-main-orange: #fb9d45;
+  --color-main-blue: #0095d2;
+  --color-main-brown: #5c2e0e; /* contorno do logo — bom para textos */
+
+  /* Fontes: font-sans (textos) e font-display (logo/títulos) */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-chewy), ui-rounded, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* compensa o header fixo ao navegar por âncoras (#secao) */
 }
 
 body {
-  background: var(--background);
+  background-color: color-mix(in srgb, var(--color-main-orange) 15%, white);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Padrão de patinhas, peixes, ossos... nas laterais.
+   O SVG em /public/patterns é só a "forma" (máscara); a cor vem daqui,
+   então dá para testar tons trocando apenas --pattern-color. */
+:root {
+  --pattern-color: color-mix(in srgb, var(--color-main-orange) 38%, white);
+  --pattern-size: 420px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--pattern-color);
+  -webkit-mask-image: url("/patterns/patinhas.svg");
+  mask-image: url("/patterns/patinhas.svg");
+  -webkit-mask-size: var(--pattern-size);
+  mask-size: var(--pattern-size);
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+/* Títulos usam a Chewy por padrão */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+body {
+  cursor: url("/cursors/pata.svg") 10 6, auto;
+}
+
+a,
+button,
+summary,
+[role="button"] {
+  cursor: url("/cursors/pata-click.svg") 10 6, pointer;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text;
 }
