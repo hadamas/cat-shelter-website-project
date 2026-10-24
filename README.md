@@ -58,6 +58,8 @@ existing visual identity.
 ### Available now
 
 - **Responsive layout** with a top bar, sticky header and footer
+- **Multi-page navigation**: each section is its own route, with active menu highlighting,
+  breadcrumbs, per-page SEO metadata and a custom 404 page
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -114,7 +116,11 @@ can be deployed independently.
 │   │   ├── lib/site.ts       # Central config: navigation, contacts, social links
 │   │   ├── globals.css       # Theme tokens, background pattern, cursor
 │   │   ├── layout.tsx        # Root layout, fonts and SEO metadata
-│   │   └── page.tsx          # Home page
+│   │   ├── page.tsx          # Home page
+│   │   ├── quem-somos/       # /quem-somos
+│   │   ├── como-ajudar/      # /como-ajudar + adote, voluntariado, lojinha, doacao, contas
+│   │   ├── contato/          # /contato
+│   │   └── not-found.tsx     # Custom 404
 │   └── public/
 │       ├── images/           # Logo and site images
 │       ├── cursors/          # Paw cursor (SVG)
@@ -212,6 +218,9 @@ duplicates objects across the tile edges so the pattern repeats without seams.
   only the needed weight and subset, avoiding layout shift.
 - **Image performance.** The logo uses `next/image` with eager loading in the header (above the
   fold) and responsive sizes.
+- **Active links without losing static rendering.** The menu highlights the current page with
+  `usePathname` inside a small client component wrapped in `<Suspense>`, so the layout stays
+  prerendered even on future dynamic routes.
 - **Accessibility.** Semantic landmarks, `aria-label`s on icon-only buttons, keyboard-accessible
   dropdown, `aria-live` feedback when the Pix key is copied, and a fallback to the default cursor.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
@@ -228,6 +237,7 @@ The website is deployed on **Vercel** from the `main` branch:
 - [x] Project setup (Next.js 16, TypeScript, Tailwind 4, Vercel)
 - [x] Visual identity: colors, fonts, cursor, background pattern
 - [x] Top bar, header and footer
+- [x] Multi-page routing for every section
 - [ ] Home page sections from the wireframes
 - [ ] "Quem Somos" (about) section
 - [ ] "Como Ajudar" (how to help) section and dropdown options

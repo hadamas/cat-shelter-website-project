@@ -37,7 +37,6 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   applicationName: siteConfig.name,
   keywords: ["adoção de gatos", "gatil", "adotar gato", "ONG de gatos", siteConfig.name],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -56,7 +55,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${geist.variable} ${chewy.variable} h-full antialiased`}>
+    <html lang="pt-BR" data-scroll-behavior="smooth" className={`${geist.variable} ${chewy.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <TopBar />
         <Header />

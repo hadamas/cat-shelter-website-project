@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { donationHref, navItems } from "@/app/lib/site";
 import { ChevronDownIcon, MenuIcon, SearchIcon } from "./icons";
+import NavLink from "./NavLink";
+import { ClosingDetails, ClosingLi } from "./MenuClosers";
 
 // Server Component: o dropdown funciona só com CSS (hover + foco pelo teclado),
 // então nenhum JavaScript é enviado ao navegador por este componente.
@@ -27,11 +29,11 @@ export default function Header() {
           <ul className="flex items-center gap-8 text-sm font-medium text-main-brown">
             {navItems.map((item) =>
               item.children ? (
-                <li key={item.label} className="group relative">
-                  <Link
+                <ClosingLi key={item.label} className="group relative">
+                  <NavLink
                     href={item.href}
-                    aria-haspopup="true"
                     className="flex items-center gap-1 py-2 transition-colors hover:text-main-blue"
+                    activeClassName="text-main-blue font-semibold"
                   >
                     {item.label}
                     <ChevronDownIcon
@@ -39,25 +41,30 @@ export default function Header() {
                       height={16}
                       className="transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
                     />
-                  </Link>
+                  </NavLink>
                   <ul className="invisible absolute left-1/2 top-full w-52 -translate-x-1/2 translate-y-1 rounded-xl border border-black/5 bg-white p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     {item.children.map((child) => (
                       <li key={child.label}>
-                        <Link
+                        <NavLink
                           href={child.href}
                           className="block rounded-lg px-3 py-2 transition-colors hover:bg-main-orange/15 hover:text-main-blue"
+                          activeClassName="bg-main-orange/15 text-main-blue"
                         >
                           {child.label}
-                        </Link>
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
-                </li>
+                </ClosingLi>
               ) : (
                 <li key={item.label}>
-                  <Link href={item.href} className="py-2 transition-colors hover:text-main-blue">
+                  <NavLink
+                    href={item.href}
+                    className="py-2 transition-colors hover:text-main-blue"
+                    activeClassName="text-main-blue font-semibold"
+                  >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 </li>
               ),
             )}
@@ -81,7 +88,7 @@ export default function Header() {
           </Link>
 
           {/* Menu mobile: <details> nativo, sem JavaScript */}
-          <details className="group/menu relative md:hidden">
+          <ClosingDetails className="group/menu relative md:hidden">
             <summary
               aria-label="Abrir menu"
               className="grid size-11 cursor-pointer list-none place-items-center rounded-full border border-main-brown/20 text-main-brown [&::-webkit-details-marker]:hidden"
@@ -95,16 +102,24 @@ export default function Header() {
               <ul className="flex flex-col text-main-brown">
                 {navItems.map((item) => (
                   <li key={item.label}>
-                    <Link href={item.href} className="block rounded-lg px-3 py-2 font-medium hover:bg-main-orange/15">
+                    <NavLink
+                      href={item.href}
+                      className="block rounded-lg px-3 py-2 font-medium hover:bg-main-orange/15"
+                      activeClassName="text-main-blue"
+                    >
                       {item.label}
-                    </Link>
+                    </NavLink>
                     {item.children && (
                       <ul className="ml-3 border-l border-main-orange/40 pl-2">
                         {item.children.map((child) => (
                           <li key={child.label}>
-                            <Link href={child.href} className="block rounded-lg px-3 py-1.5 text-sm hover:bg-main-orange/15">
+                            <NavLink
+                              href={child.href}
+                              className="block rounded-lg px-3 py-1.5 text-sm hover:bg-main-orange/15"
+                              activeClassName="text-main-blue"
+                            >
                               {child.label}
-                            </Link>
+                            </NavLink>
                           </li>
                         ))}
                       </ul>
@@ -121,7 +136,7 @@ export default function Header() {
                 </li>
               </ul>
             </nav>
-          </details>
+          </ClosingDetails>
         </div>
       </div>
     </header>

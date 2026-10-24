@@ -20,7 +20,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; /* rolagem suave em âncoras dentro da mesma página */
   scroll-padding-top: 5rem; /* compensa o header fixo ao navegar por âncoras (#secao) */
 }
 

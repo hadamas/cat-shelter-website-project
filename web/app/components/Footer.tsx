@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
 import { navItems, siteConfig, socialLinks } from "@/app/lib/site";
+import NavLink from "./NavLink";
 import { BookIcon, FacebookIcon, InstagramIcon, ShirtIcon } from "./icons";
 
 const socials = [
@@ -40,9 +41,13 @@ export default function Footer() {
             <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-main-brown/80">
               {navItems.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="transition-colors hover:text-main-blue">
+                  <NavLink
+                    href={item.href}
+                    className="transition-colors hover:text-main-blue"
+                    activeClassName="text-main-blue"
+                  >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
