@@ -60,6 +60,7 @@ existing visual identity.
 - **Responsive layout** with a top bar, sticky header and footer
 - **Multi-page navigation**: each section is its own route, with active menu highlighting,
   breadcrumbs, per-page SEO metadata and a custom 404 page
+- **Home hero** with a looping video: side-by-side on desktop, full-screen background on mobile
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -112,7 +113,8 @@ can be deployed independently.
 .
 ├── web/                      # Next.js website
 │   ├── app/
-│   │   ├── components/       # Header, Footer, TopBar, icons...
+│   │   ├── components/       # Header, Footer, TopBar, icons, home/ and ui/ components
+│   │   ├── content/          # Page content (texts, media) — will move to the database
 │   │   ├── lib/site.ts       # Central config: navigation, contacts, social links
 │   │   ├── globals.css       # Theme tokens, background pattern, cursor
 │   │   ├── layout.tsx        # Root layout, fonts and SEO metadata
@@ -123,6 +125,7 @@ can be deployed independently.
 │   │   └── not-found.tsx     # Custom 404
 │   └── public/
 │       ├── images/           # Logo and site images
+│       ├── videos/           # Compressed hero video and poster
 │       ├── cursors/          # Paw cursor (SVG)
 │       └── patterns/         # Generated background pattern (SVG)
 ├── design/
@@ -223,6 +226,10 @@ duplicates objects across the tile edges so the pattern repeats without seams.
   prerendered even on future dynamic routes.
 - **Accessibility.** Semantic landmarks, `aria-label`s on icon-only buttons, keyboard-accessible
   dropdown, `aria-live` feedback when the Pix key is copied, and a fallback to the default cursor.
+- **Content separated from components.** Texts and media live in `app/content/`, typed like the
+  future database records, so making them editable by admins won't require touching the UI.
+- **Lightweight hero video.** One `<video>` element repositioned with CSS (downloaded once), H.264
+  MP4 trimmed to a 19-second loop and compressed, autoplaying muted with a `poster` image shown while it loads.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
 
 ## Deployment
@@ -238,7 +245,8 @@ The website is deployed on **Vercel** from the `main` branch:
 - [x] Visual identity: colors, fonts, cursor, background pattern
 - [x] Top bar, header and footer
 - [x] Multi-page routing for every section
-- [ ] Home page sections from the wireframes
+- [x] Home hero
+- [ ] Other home page sections from the wireframes
 - [ ] "Quem Somos" (about) section
 - [ ] "Como Ajudar" (how to help) section and dropdown options
 - [ ] Contact section

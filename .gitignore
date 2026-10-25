@@ -1,0 +1,6 @@
+# Arquivos-fonte pesados (vídeos/imagens originais antes da compressão)
+design/video-source/
+
+# Sistema
+.DS_Store
+Thumbs.db
