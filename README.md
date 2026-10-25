@@ -66,7 +66,8 @@ existing visual identity.
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
 - **Brand identity**: Chewy for headings, Geist for body text, custom paw cursor
 - **Decorative background** with a seamless paw/fish/bone pattern on the side margins
-- **SEO foundations**: metadata, Open Graph tags, `pt-BR` language, canonical URL
+- **SEO**: per-page metadata, canonical URLs, generated `sitemap.xml` and `robots.txt`,
+  a dynamic Open Graph share image, and `AnimalShelter` structured data (JSON-LD)
 
 ### In progress / planned
 
@@ -122,7 +123,11 @@ can be deployed independently.
 │   │   ├── quem-somos/       # /quem-somos
 │   │   ├── como-ajudar/      # /como-ajudar + adote, voluntariado, lojinha, doacao, contas
 │   │   ├── contato/          # /contato
-│   │   └── not-found.tsx     # Custom 404
+│   │   ├── not-found.tsx     # Custom 404
+│   │   ├── sitemap.ts        # /sitemap.xml
+│   │   ├── robots.ts         # /robots.txt
+│   │   └── opengraph-image.tsx # Share image for social media
+│   ├── assets/fonts/         # Font used to generate the Open Graph image
 │   └── public/
 │       ├── images/           # Logo and site images
 │       ├── videos/           # Compressed hero video and poster
@@ -174,7 +179,8 @@ change there updates the whole site.
 
 | Variable | Required | Description |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | No | Public URL used for absolute links (Open Graph, canonical). Falls back to the Vercel production URL, then `http://localhost:3000`. |
+| `NEXT_PUBLIC_SITE_URL` | No | Public URL used for absolute links (Open Graph, canonical, sitemap). Falls back to the Vercel production URL, then `http://localhost:3000`. |
+| `GOOGLE_SITE_VERIFICATION` | No | Google Search Console verification code (rendered as a meta tag). |
 
 More variables (API URL, database, payment keys) will be added as the backend is built.
 Secrets must **never** use the `NEXT_PUBLIC_` prefix.
@@ -258,7 +264,8 @@ The website is deployed on **Vercel** from the `main` branch:
 - [ ] Online store with Mercado Pago checkout
 - [ ] English version (i18n)
 - [ ] Custom domain
-- [ ] Sitemap, robots.txt and Google Search Console
+- [x] Sitemap, robots.txt, Open Graph image and structured data
+- [ ] Google Search Console
 
 ## Commit convention
 

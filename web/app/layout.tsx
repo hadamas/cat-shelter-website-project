@@ -3,7 +3,7 @@ import { Chewy, Geist } from "next/font/google";
 import TopBar from "@/app/components/TopBar";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { siteConfig } from "@/app/lib/site";
+import { siteConfig, siteUrl } from "@/app/lib/site";
 import "./globals.css";
 
 const geist = Geist({
@@ -18,15 +18,6 @@ const chewy = Chewy({
   subsets: ["latin"],
   display: "swap",
 });
-
-// URL base para links absolutos (Open Graph, canonical, sitemap).
-// Na Vercel, VERCEL_PROJECT_PRODUCTION_URL é definida automaticamente.
-// Quando comprar o domínio, defina NEXT_PUBLIC_SITE_URL=https://seudominio.com.br
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -44,9 +35,14 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     url: "/",
-    images: [{ url: "/images/logo.png", width: 1014, height: 589, alt: siteConfig.name }],
+    // a imagem de compartilhamento é gerada por app/opengraph-image.tsx
   },
+  twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
+  // Código de verificação do Google Search Console (variável de ambiente na Vercel)
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
