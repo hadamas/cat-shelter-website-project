@@ -14,7 +14,7 @@ export const siteUrl =
 export const siteConfig = {
   name: "Gatos de Francisca",
   description:
-    "Gatil Gatos de Francisca: resgate, cuidado e adoção responsável de gatinhos. Conheça os gatos disponíveis para adoção e saiba como ajudar.",
+    "ONG Animal Gatil Gatos de Francisca: resgate, cuidado e adoção responsável de gatinhos. Conheça os gatos disponíveis para adoção e saiba como ajudar.",
 };
 
 export type NavItem = { label: string; href: string; description?: string };
@@ -66,9 +66,9 @@ export const languages = [
 // Preencha o que puder: campos vazios são ignorados.
 // TODO: confirmar com o gatil o que pode ser público (às vezes o endereço exato é omitido por segurança).
 export const shelterAddress = {
-  streetAddress: "",
-  addressLocality: "", // cidade, ex.: "Rio de Janeiro"
+  streetAddress: "Rua Nossa Senhora de Lurdes, 16",
+  addressLocality: "Rio de Janeiro", // cidade, ex.: "Rio de Janeiro"
   addressRegion: "RJ",
-  postalCode: "",
+  postalCode: "20540-370",
   addressCountry: "BR",
 };
