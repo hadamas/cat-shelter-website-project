@@ -202,3 +202,92 @@ export function MapPinIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Vassoura (limpeza)
+export function BroomIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M19 3 12.5 9.5" />
+      <path d="M8.5 9.5 14.5 15.5" />
+      <path d="M8.5 9.5c-2 .5-4 2.5-5 5.5L9 20.5c3-1 5-3 5.5-5" />
+      <path d="M6 17.5 4.5 19M9.5 13.5l-3.5 3.5" />
+    </svg>
+  );
+}
+
+// Tigela (alimentação)
+export function BowlIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 11h18a9 9 0 0 1-18 0Z" />
+      <path d="M8 7.5c1-1 2-1 3 0s2 1 3 0 2-1 3 0" />
+    </svg>
+  );
+}
+
+// Cápsula (medicação)
+export function PillIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)" />
+      <path d="m8.5 8.5 7 7" />
+    </svg>
+  );
+}
+
+// Balão de festa (eventos)
+export function BalloonIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 15c-3.3 0-6-3-6-6.5S8.7 2.5 12 2.5s6 2.5 6 6-2.7 6.5-6 6.5Z" />
+      <path d="m11 15-.8 1.5h3.6L13 15" />
+      <path d="M12 16.5c0 2-2 2.5-2 5" />
+    </svg>
+  );
+}
+
+// Barraca de feira (feiras de adoção)
+export function TentIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 9.5 5 4h14l2 5.5" />
+      <path d="M3 9.5c0 1.4 1 2.5 2.25 2.5S7.5 10.9 7.5 9.5c0 1.4 1 2.5 2.25 2.5S12 10.9 12 9.5c0 1.4 1 2.5 2.25 2.5s2.25-1.1 2.25-2.5c0 1.4 1 2.5 2.25 2.5S21 10.9 21 9.5" />
+      <path d="M5 12v9h14v-9M10 21v-5h4v5" />
+    </svg>
+  );
+}
+
+export function CameraIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 7.5h3l1.5-2.5h7L17 7.5h3a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z" />
+      <circle cx="12" cy="13.5" r="3.5" />
+    </svg>
+  );
+}
+
+export function SunIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+
+export function MoonIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />
+    </svg>
+  );
+}
+
+export function ExternalLinkIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14 4h6v6M20 4l-9 9" />
+      <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+    </svg>
+  );
+}

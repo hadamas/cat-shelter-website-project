@@ -27,7 +27,7 @@ export const partners = {
     {
       name: "Petz",
       logo: { src: "/images/parceiros/petz.png", alt: "Petz", width: 740, height: 164 },
-      href: "https://www.instagram.com/p/DUyGYTtGlG8/",
+      href: "https://www.petz.com.br/parceiro/gdf?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAactRvgpnSrXt6Vga4dvJQdeqOl5CsUxfY325JYnm5imPCKIW8xEaRffsDezgQ_aem_AiiyigfD_70Yzl7iP8bNRA&utm_id=97760_v0_s00_e0_tv3_a1dennh9x4pi1v",
     },
     {
       name: "Ágape Clínica Veterinária & Pet Hostel",
