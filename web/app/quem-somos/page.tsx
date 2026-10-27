@@ -6,6 +6,7 @@ import Story from "@/app/components/quem-somos/Story";
 import Stats from "@/app/components/quem-somos/Stats";
 import CatStories from "@/app/components/quem-somos/CatStories";
 import Volunteers from "@/app/components/quem-somos/Volunteers";
+import LocationMap from "@/app/components/LocationMap";
 import { catStories, helpCards, hero, partners, stats, story, volunteers } from "@/app/content/quem-somos";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function QuemSomosPage() {
       <Stats items={stats} />
       <CatStories content={catStories} />
       <Volunteers content={volunteers} />
+      <LocationMap />
     </>
   );
 }

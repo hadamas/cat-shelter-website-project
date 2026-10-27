@@ -62,7 +62,8 @@ existing visual identity.
   breadcrumbs, per-page SEO metadata and a custom 404 page
 - **Home hero** with a looping video: side-by-side on desktop, full-screen background on mobile
 - **About page ("Quem Somos")**: hero, partners, help cards, story with a fading photo carousel,
-  animated counters that start when scrolled into view, cat stories and a volunteers gallery
+  animated counters that start when scrolled into view, cat stories, a volunteers gallery and an
+  embedded Google Maps location (no API key, lazy-loaded)
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore

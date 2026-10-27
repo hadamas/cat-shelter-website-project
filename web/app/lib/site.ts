@@ -62,13 +62,15 @@ export const languages = [
   { code: "en", label: "EN", name: "English" },
 ] as const;
 
-// Endereço do gatil para o Google (dados estruturados).
-// Preencha o que puder: campos vazios são ignorados.
-// TODO: confirmar com o gatil o que pode ser público (às vezes o endereço exato é omitido por segurança).
+// Endereço do gatil: usado nos dados estruturados do Google e na seção de localização.
 export const shelterAddress = {
-  streetAddress: "Rua Nossa Senhora de Lurdes, 16",
-  addressLocality: "Rio de Janeiro", // cidade, ex.: "Rio de Janeiro"
+  streetAddress: "Rua Nossa Senhora de Lourdes, 16",
+  neighborhood: "Grajaú",
+  addressLocality: "Rio de Janeiro",
   addressRegion: "RJ",
   postalCode: "20540-370",
   addressCountry: "BR",
 };
+
+// "Rua Nossa Senhora de Lourdes, 16 - Grajaú, Rio de Janeiro - RJ, 20540-370"
+export const shelterAddressLine = `${shelterAddress.streetAddress} - ${shelterAddress.neighborhood}, ${shelterAddress.addressLocality} - ${shelterAddress.addressRegion}, ${shelterAddress.postalCode}`;

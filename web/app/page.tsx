@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 
 // Dados estruturados: diz ao Google que o site é de um abrigo de animais,
 // com nome, logo, contato e redes sociais.
-const address = Object.fromEntries(Object.entries(shelterAddress).filter(([, v]) => v));
+const address = Object.fromEntries(
+  Object.entries(shelterAddress).filter(([k, v]) => v && k !== "neighborhood"), // schema.org não tem campo de bairro
+);
 const shelterJsonLd = {
   "@context": "https://schema.org",
   "@type": "AnimalShelter",
