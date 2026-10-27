@@ -64,6 +64,8 @@ existing visual identity.
 - **About page ("Quem Somos")**: hero, partners, help cards, story with a fading photo carousel,
   animated counters that start when scrolled into view, cat stories, a volunteers gallery and an
   embedded Google Maps location (no API key, lazy-loaded)
+- **Contact page** with WhatsApp (opens the chat with a pre-filled message), Instagram and
+  neighborhood, plus an image slot that falls back to a placeholder until a photo is added
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -261,7 +263,7 @@ The website is deployed on **Vercel** from the `main` branch:
 - [ ] Other home page sections from the wireframes
 - [x] "Quem Somos" (about) page
 - [ ] "Como Ajudar" (how to help) section and dropdown options
-- [ ] Contact section
+- [x] Contact page
 - [ ] Search
 - [ ] Database and REST API
 - [ ] Volunteer login with role-based access (admin / volunteer)

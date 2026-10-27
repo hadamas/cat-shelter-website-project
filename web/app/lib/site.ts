@@ -49,11 +49,19 @@ export const socialLinks = {
 export const contactInfo = {
   // TODO: trocar pela mensagem definitiva
   tagline: "Resgate, cuidado e adoção responsável de gatinhos",
-  // TODO: preencher com o WhatsApp real (só números, com DDI e DDD, ex.: 5521999999999)
   whatsappNumber: "+5521987755777",
   whatsappLabel: "(21) 98775-5777",
+  /** mensagem que já aparece escrita quando a pessoa abre a conversa pelo site */
+  whatsappMessage: "Olá! Vim pelo site do Gatos de Francisca e gostaria de mais informações.",
   pixKey: "095.402.357-90",
 };
+
+// Link do WhatsApp que abre a conversa com uma mensagem pronta.
+// Ex.: whatsappHref("Olá! Tenho interesse em adotar um gatinho.")
+export function whatsappHref(message: string = contactInfo.whatsappMessage) {
+  const number = contactInfo.whatsappNumber.replace(/\D/g, ""); // wa.me aceita só números
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
 
 export const loginHref = "/login"; // área de voluntários (a criar)
 

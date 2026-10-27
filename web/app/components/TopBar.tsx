@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { contactInfo, languages, loginHref } from "@/app/lib/site";
+import { contactInfo, languages, loginHref, whatsappHref } from "@/app/lib/site";
 import CopyPix from "./CopyPix";
 import { UserIcon, WhatsappIcon } from "./icons";
 
@@ -15,7 +15,7 @@ export default function TopBar() {
           <p className="hidden truncate lg:block">{contactInfo.tagline}</p>
           <span aria-hidden className="hidden h-3 w-px bg-main-brown/20 lg:block" />
           <a
-            href={`https://wa.me/${contactInfo.whatsappNumber.replace(/\D/g, "")}`}
+            href={whatsappHref()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 transition-colors hover:text-main-blue"
