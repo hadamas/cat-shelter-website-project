@@ -26,6 +26,7 @@ export const partners = {
   items: [
     {
       name: "Petz",
+      logo: { src: "/images/parceiros/petz.png", alt: "Petz", width: 740, height: 164 },
       href: "https://www.instagram.com/p/DUyGYTtGlG8/",
     },
     {
