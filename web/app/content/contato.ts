@@ -6,7 +6,7 @@ export const contato = {
     "Quer adotar, ajudar ou tirar alguma dúvida? Nossos canais de atendimento são o WhatsApp e o Instagram. Respondemos assim que possível!",
   location: "Grajaú, Rio de Janeiro - RJ",
   image: {
-    src: "/images/contato/contato.jpg",
+    src: "/images/contato/contato.JPG",
     alt: "Ilustração do gatinho laranja do Gatos de Francisca segurando um celular, com um balão de coração",
   },
 };
