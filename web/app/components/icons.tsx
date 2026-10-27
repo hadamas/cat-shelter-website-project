@@ -128,3 +128,68 @@ export function ArrowRightIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Mão segurando um coração (doação)
+export function HandHeartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 11.5c-2.2-1.7-4-3.2-4-5.1A2.1 2.1 0 0 1 12 5.3a2.1 2.1 0 0 1 4 1.1c0 1.9-1.8 3.4-4 5.1Z" />
+      <path d="M2 14.5h3.5l3-1.2h4a1.6 1.6 0 0 1 0 3.2H9.5" />
+      <path d="M12.5 16.5 18 13.8a1.7 1.7 0 0 1 2 2.6L14 20.5H6.5L4 21.5" />
+    </svg>
+  );
+}
+
+// Cabeça de gato
+export function CatIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 9.2V3.5l4 3.3h6l4-3.3v5.7c.9 1.3 1.5 2.8 1.5 4.4 0 4.2-3.8 7.4-8.5 7.4s-8.5-3.2-8.5-7.4c0-1.6.6-3.1 1.5-4.4Z" />
+      <path d="M9 12.5v.5M15 12.5v.5" />
+      <path d="m11 15.5 1 .8 1-.8" />
+    </svg>
+  );
+}
+
+// Casa com coração (adoção)
+export function HomeHeartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 11 12 3l9 8" />
+      <path d="M5 9.5V21h14V9.5" />
+      <path d="M12 18c-1.7-1.3-3-2.4-3-3.8a1.5 1.5 0 0 1 3-.6 1.5 1.5 0 0 1 3 .6c0 1.4-1.3 2.5-3 3.8Z" />
+    </svg>
+  );
+}
+
+export function CalendarIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+    </svg>
+  );
+}
+
+// Escudo com cruz (saúde / castração)
+export function HealthIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m12 3 7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6Z" />
+      <path d="M12 9v6M9 12h6" />
+    </svg>
+  );
+}
+
+// Patinha preenchida (espaços reservados de imagens)
+export function PawIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <ellipse cx="6" cy="10" rx="2.1" ry="2.7" />
+      <ellipse cx="10" cy="5.5" rx="2.2" ry="2.9" />
+      <ellipse cx="14" cy="5.5" rx="2.2" ry="2.9" />
+      <ellipse cx="18" cy="10" rx="2.1" ry="2.7" />
+      <path d="M12 11c-2.8 0-6 3.6-6 6.3 0 2 1.5 2.8 3.1 2.8 1.2 0 2-.6 2.9-.6s1.7.6 2.9.6c1.6 0 3.1-.8 3.1-2.8 0-2.7-3.2-6.3-6-6.3Z" />
+    </svg>
+  );
+}

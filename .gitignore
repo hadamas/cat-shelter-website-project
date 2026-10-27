@@ -4,3 +4,6 @@ design/video-source/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Imagens originais (antes da otimização)
+design/images-source/

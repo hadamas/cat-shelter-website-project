@@ -52,12 +52,23 @@ body::before {
   mask-repeat: repeat;
 }
 
-/* Títulos usam a Chewy por padrão */
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
+/* Esconde a barra de rolagem mantendo a rolagem (dedo, trackpad, teclado). Uso: class="scrollbar-none" */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Títulos usam a Chewy por padrão.
+   Fica no @layer base para que classes do Tailwind (ex.: font-sans) consigam sobrescrever. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
 }
 
 body {

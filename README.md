@@ -61,6 +61,8 @@ existing visual identity.
 - **Multi-page navigation**: each section is its own route, with active menu highlighting,
   breadcrumbs, per-page SEO metadata and a custom 404 page
 - **Home hero** with a looping video: side-by-side on desktop, full-screen background on mobile
+- **About page ("Quem Somos")**: hero, partners, help cards, story with a fading photo carousel,
+  animated counters that start when scrolled into view, cat stories and a volunteers gallery
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -236,6 +238,9 @@ duplicates objects across the tile edges so the pattern repeats without seams.
   future database records, so making them editable by admins won't require touching the UI.
 - **Lightweight hero video.** One `<video>` element repositioned with CSS (downloaded once), H.264
   MP4 trimmed to a 19-second loop and compressed, autoplaying muted with a `poster` image shown while it loads.
+- **Scroll-triggered counters.** `IntersectionObserver` starts the count once; numbers are
+  updated straight in the DOM with `requestAnimationFrame` (no re-render per frame), the final
+  value is in the server HTML for SEO, and screen readers only hear the final number.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
 
 ## Deployment
@@ -253,7 +258,7 @@ The website is deployed on **Vercel** from the `main` branch:
 - [x] Multi-page routing for every section
 - [x] Home hero
 - [ ] Other home page sections from the wireframes
-- [ ] "Quem Somos" (about) section
+- [x] "Quem Somos" (about) page
 - [ ] "Como Ajudar" (how to help) section and dropdown options
 - [ ] Contact section
 - [ ] Search
