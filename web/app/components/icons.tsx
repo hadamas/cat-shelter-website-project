@@ -323,3 +323,61 @@ export function CalendarHeartIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Símbolo feminino (♀)
+export function FemaleIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="9" r="5.5" />
+      <path d="M12 14.5V22M8.5 18.5h7" />
+    </svg>
+  );
+}
+
+// Símbolo masculino (♂)
+export function MaleIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="10" cy="14" r="5.5" />
+      <path d="m14 10 6.5-6.5M15 3.5h5.5V9" />
+    </svg>
+  );
+}
+
+// Bolo (idade)
+export function CakeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 21v-8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8" />
+      <path d="M4 16c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 2.5-.7 2.5-.7" />
+      <path d="M2.5 21h19M12 11V8" />
+      <path d="M12 3.5c.8.9 1.2 1.6 1.2 2.2a1.2 1.2 0 0 1-2.4 0c0-.6.4-1.3 1.2-2.2Z" />
+    </svg>
+  );
+}
+
+// Casa (tempo no gatil)
+export function HomeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 11 12 3l9 8" />
+      <path d="M5 9.5V21h5v-6h4v6h5V9.5" />
+    </svg>
+  );
+}
+
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m15 6-6 6 6 6" />
+    </svg>
+  );
+}
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m9 6 6 6-6 6" />
+    </svg>
+  );
+}

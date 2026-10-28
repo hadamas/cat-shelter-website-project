@@ -70,6 +70,9 @@ existing visual identity.
   remote roles, a 3-step "how to join" guide, and links to the sign-up form and WhatsApp
 - **Donations page**: six ways to give (Pix, monthly contribution, supplies, Petz partner link
   with coupon, thrift shop and used bookstore), with copy-to-clipboard for the Pix key and coupon
+- **Adoption page**: cat cards (photo, name, sex, age and time at the shelter calculated from
+  dates) with sorting and responsive pagination kept in the URL, plus a page for each cat with a
+  photo gallery, vet care, story and personality traits
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -248,6 +251,12 @@ duplicates objects across the tile edges so the pattern repeats without seams.
 - **Scroll-triggered counters.** `IntersectionObserver` starts the count once; numbers are
   updated straight in the DOM with `requestAnimationFrame` (no re-render per frame), the final
   value is in the server HTML for SEO, and screen readers only hear the final number.
+- **Data access layer for cats.** Pages call `getAvailableCats()` / `getCatBySlug()` in
+  `app/lib/cats.ts`; today they return example data, later they will call the API — no UI changes.
+- **Sorting and pagination in the URL** (`?ordem=nome&pagina=2`), so links can be shared and the
+  back button works. Page size follows the grid (16 on mobile, 6 on tablet, 8 on desktop).
+- **Static cat pages** generated with `generateStaticParams`, each with its own metadata and share
+  image, and included in the sitemap.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
 
 ## Deployment
@@ -269,12 +278,13 @@ The website is deployed on **Vercel** from the `main` branch:
 - [ ] "Como Ajudar" (how to help) section and dropdown options
   - [x] Volunteer page
   - [x] Donations page
+  - [x] Adoption listing and cat pages (with example data)
 - [x] Contact page
 - [ ] Search
 - [ ] Database and REST API
 - [ ] Volunteer login with role-based access (admin / volunteer)
 - [ ] Adoption listings: create, edit, mark as adopted, export to Excel
-- [ ] Individual cat pages with Open Graph images for sharing
+- [x] Individual cat pages with Open Graph images for sharing
 - [ ] Online store with Mercado Pago checkout
 - [ ] English version (i18n)
 - [ ] Custom domain

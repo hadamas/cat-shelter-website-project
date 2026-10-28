@@ -33,6 +33,7 @@ export default function TopBar() {
         <div className="flex shrink-0 items-center gap-3">
           <Link
             href={loginHref}
+            prefetch={false}
             aria-label="Área do voluntário"
             title="Área do voluntário"
             className="grid size-7 place-items-center rounded-full transition-colors hover:bg-main-blue/10 hover:text-main-blue"
@@ -47,6 +48,7 @@ export default function TopBar() {
                 <li key={lang.code}>
                   <Link
                     href={lang.code === "pt" ? "/" : `/${lang.code}`}
+                    prefetch={false}
                     lang={lang.code}
                     hrefLang={lang.code}
                     aria-current={active ? "true" : undefined}
