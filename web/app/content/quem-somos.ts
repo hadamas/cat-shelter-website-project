@@ -8,9 +8,9 @@ export type ImageRef = { src: string; alt: string };
 
 // ---------- Hero ----------
 export const hero = {
-  title: "Mais que um abrigo, uma segunda chance",
+  title: "Cuidado que transforma vidas",
   subtitle:
-    "Desde 2019, o Gatos de Francisca acolhe gatos abandonados, doentes e filhotes, cuida de cada um deles e procura famílias que os amem para sempre.",
+    "O nosso gatil acolhe gatos em situação de vulnerabilidade no Rio de Janeiro, oferecendo cuidados, proteção e a oportunidade de encontrar uma família para a vida toda.",
   cta: { label: "Quero ajudar", href: "/como-ajudar" } satisfies CtaLink,
 };
 
