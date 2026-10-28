@@ -93,8 +93,8 @@ See the [roadmap](#roadmap).
 | Styling | [Tailwind CSS 4](https://tailwindcss.com/) | ✅ |
 | Fonts | `next/font` (self-hosted Google Fonts) | ✅ |
 | Hosting (frontend) | [Vercel](https://vercel.com/) | ✅ |
-| API | Node.js + Express (REST) | 🔜 |
-| Database | PostgreSQL (Supabase or Neon) + Prisma ORM | 🔜 |
+| API | Node.js + Express 5 + TypeScript (REST), Zod validation | 🚧 |
+| Database | PostgreSQL (Supabase) + Drizzle ORM, SQL migrations | 🚧 |
 | Auth | Hashed passwords (bcrypt/argon2) + JWT in httpOnly cookies, role-based access | 🔜 |
 | Images | Cloudinary or Supabase Storage | 🔜 |
 | Payments | Mercado Pago (Pix, card, boleto) with webhooks | 🔜 |
@@ -147,7 +147,14 @@ can be deployed independently.
 │       └── patterns/         # Generated background pattern (SVG)
 ├── design/
 │   └── pattern/              # Source SVGs, layout.json and generator script
-├── api/                      # (planned) Express API
+├── api/                      # Express API
+│   ├── src/
+│   │   ├── db/schema.ts      # Tables: cats, cat_photos, users
+│   │   ├── db/seed.ts        # Example data
+│   │   ├── routes/cats.ts    # GET /cats, GET /cats/:slug
+│   │   ├── app.ts            # Express app (CORS, JSON, errors)
+│   │   └── env.ts            # Environment variables validated with Zod
+│   └── drizzle/              # Generated SQL migrations
 ├── LICENSE
 └── README.md
 ```
@@ -178,6 +185,25 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Create a production build |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
+
+### Run the API locally
+
+```bash
+cd api
+cp .env.example .env      # then fill DATABASE_URL
+npm install
+npm run db:migrate        # create the tables
+npm run db:seed           # optional: example cats
+npm run dev               # http://localhost:3333
+```
+
+| Endpoint | Description |
+|---|---|
+| `GET /health` | API and database status |
+| `GET /cats?status=disponivel` | Cats by status (`disponivel` or `adotado`), with photos |
+| `GET /cats/:slug` | One cat |
+
+**Why Drizzle?** The schema is plain TypeScript, migrations are readable SQL files versioned in git, and there is no generated client or native binary to download.
 
 ## Configuration
 
@@ -257,6 +283,8 @@ duplicates objects across the tile edges so the pattern repeats without seams.
   back button works. Page size follows the grid (16 on mobile, 6 on tablet, 8 on desktop).
 - **Static cat pages** generated with `generateStaticParams`, each with its own metadata and share
   image, and included in the sitemap.
+- **Database security on Supabase.** Row Level Security is enabled on every table with no
+  policies, so Supabase's auto-generated public API can't read or write the data — only our API, connecting as the database owner, can.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
 
 ## Deployment
@@ -282,6 +310,8 @@ The website is deployed on **Vercel** from the `main` branch:
 - [x] Contact page
 - [ ] Search
 - [ ] Database and REST API
+  - [x] Schema, migrations, seed and public read endpoints
+  - [ ] Connect the website to the API
 - [ ] Volunteer login with role-based access (admin / volunteer)
 - [ ] Adoption listings: create, edit, mark as adopted, export to Excel
 - [x] Individual cat pages with Open Graph images for sharing
