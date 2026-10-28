@@ -291,3 +291,35 @@ export function ExternalLinkIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Caixa (doação de itens)
+export function BoxIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m3 7.5 9-4.5 9 4.5v9L12 21l-9-4.5Z" />
+      <path d="m3 7.5 9 4.5 9-4.5M12 12v9" />
+      <path d="m7.5 5.2 9 4.6" />
+    </svg>
+  );
+}
+
+// Sacola de compras
+export function ShoppingBagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 8h14l-1 12.5H6Z" />
+      <path d="M9 10V6.5a3 3 0 0 1 6 0V10" />
+    </svg>
+  );
+}
+
+// Calendário com coração (contribuição mensal)
+export function CalendarHeartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+      <path d="M12 18.5c-1.6-1.2-3-2.2-3-3.5a1.5 1.5 0 0 1 3-.6 1.5 1.5 0 0 1 3 .6c0 1.3-1.4 2.3-3 3.5Z" />
+    </svg>
+  );
+}
