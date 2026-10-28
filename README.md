@@ -186,6 +186,11 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
 
+### Run the website with the API
+
+The adoption pages read the cats from the API, so start the API first (see below) and create
+`web/.env.local` with `API_URL=http://localhost:3333`.
+
 ### Run the API locally
 
 ```bash
@@ -219,6 +224,7 @@ change there updates the whole site.
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | No | Public URL used for absolute links (Open Graph, canonical, sitemap). Falls back to the Vercel production URL, then `http://localhost:3000`. |
 | `GOOGLE_SITE_VERIFICATION` | No | Google Search Console verification code (rendered as a meta tag). |
+| `API_URL` | Yes | Base URL of the API (`http://localhost:3333` locally). Server-only, never exposed to the browser. |
 
 More variables (API URL, database, payment keys) will be added as the backend is built.
 Secrets must **never** use the `NEXT_PUBLIC_` prefix.
@@ -289,7 +295,12 @@ duplicates objects across the tile edges so the pattern repeats without seams.
 
 ## Deployment
 
-The website is deployed on **Vercel** from the `main` branch:
+Both apps are deployed on **Vercel** as two projects from the same repository.
+
+**API** (`api/`, Express detected automatically): Root Directory `api`, environment variables
+`DATABASE_URL` (Supabase transaction pooler, port 6543), `DB_POOL_MAX=3` and `WEB_ORIGIN`.
+
+**Website** (`web/`):
 
 - **Root Directory:** `web`
 - Every push to `main` triggers a production deploy; every branch or pull request gets a preview URL.
@@ -311,7 +322,8 @@ The website is deployed on **Vercel** from the `main` branch:
 - [ ] Search
 - [ ] Database and REST API
   - [x] Schema, migrations, seed and public read endpoints
-  - [ ] Connect the website to the API
+  - [x] Connect the website to the API (cached with `"use cache"` + `cacheTag("cats")`)
+  - [ ] Deploy the API
 - [ ] Volunteer login with role-based access (admin / volunteer)
 - [ ] Adoption listings: create, edit, mark as adopted, export to Excel
 - [x] Individual cat pages with Open Graph images for sharing

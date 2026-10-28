@@ -12,6 +12,10 @@ app.disable("x-powered-by");
 app.use(cors({ origin: env.webOrigins }));
 app.use(express.json({ limit: "1mb" }));
 
+app.get("/", (_req, res) => {
+  res.json({ name: "API Gatos de Francisca", docs: "GET /cats, GET /cats/:slug, GET /health" });
+});
+
 // Verifica se a API e o banco estão no ar (útil para a hospedagem monitorar).
 app.get("/health", async (_req, res) => {
   await db.execute(sql`select 1`);
