@@ -34,3 +34,7 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   res.status(500).json({ error: "Erro interno do servidor" });
 };
 app.use(errorHandler);
+
+// Na Vercel, este arquivo é o ponto de entrada: ela usa o app exportado por padrão
+// (sem app.listen). No computador, quem sobe o servidor é o src/index.ts.
+export default app;
