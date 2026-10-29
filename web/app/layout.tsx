@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Chewy, Geist } from "next/font/google";
+import AuthProvider from "@/app/components/auth/AuthProvider";
 import TopBar from "@/app/components/TopBar";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -53,10 +54,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth" className={`${geist.variable} ${chewy.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        <TopBar />
-        <Header />
-        <main className="mx-auto w-full max-w-6xl flex-1 bg-white shadow-[0_0_40px_rgb(0_0_0/0.04)]">{children}</main>
-        <Footer />
+        {/* AuthProvider: guarda quem está logado (o resto do site continua estático) */}
+        <AuthProvider>
+          <TopBar />
+          <Header />
+          <main className="mx-auto w-full max-w-6xl flex-1 bg-white shadow-[0_0_40px_rgb(0_0_0/0.04)]">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/login", "/admin"], // áreas restritas (a criar) não aparecem no Google
+      disallow: ["/login", "/esqueci-senha", "/redefinir-senha", "/admin"], // áreas restritas (a criar) não aparecem no Google
     },
     sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,

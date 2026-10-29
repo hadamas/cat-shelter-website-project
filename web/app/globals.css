@@ -87,3 +87,13 @@ textarea,
 [contenteditable="true"] {
   cursor: text;
 }
+
+/* Fade suave ao trocar a foto na galeria do gatinho */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

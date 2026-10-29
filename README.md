@@ -70,6 +70,14 @@ existing visual identity.
   remote roles, a 3-step "how to join" guide, and links to the sign-up form and WhatsApp
 - **Donations page**: six ways to give (Pix, monthly contribution, supplies, Petz partner link
   with coupon, thrift shop and used bookstore), with copy-to-clipboard for the Pix key and coupon
+- **Adoption page**: cat cards (photo, name, sex, age and time at the shelter calculated from
+  dates) with sorting and responsive pagination kept in the URL, plus a page for each cat with a
+  photo gallery, vet care, story and personality traits
+- **Admin panel for adoption listings**: admins add and edit cats in a modal (photo upload with
+  automatic resizing to WebP, date pickers, tag inputs for vet care and personality, story with a
+  character counter, "adopted" switch). Adopted cats leave the listing but stay in the database
+  (there is no delete). Pages update instantly through on-demand cache revalidation
+- **Login for volunteers and admins**: sign in, forgot/reset password, invite-only accounts, and a user menu in the top bar with name and role
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
 - **Social links** to the shelter's Instagram, Facebook, thrift shop and used bookstore
@@ -90,9 +98,9 @@ See the [roadmap](#roadmap).
 | Styling | [Tailwind CSS 4](https://tailwindcss.com/) | ✅ |
 | Fonts | `next/font` (self-hosted Google Fonts) | ✅ |
 | Hosting (frontend) | [Vercel](https://vercel.com/) | ✅ |
-| API | Node.js + Express (REST) | 🔜 |
-| Database | PostgreSQL (Supabase or Neon) + Prisma ORM | 🔜 |
-| Auth | Hashed passwords (bcrypt/argon2) + JWT in httpOnly cookies, role-based access | 🔜 |
+| API | Node.js + Express 5 + TypeScript (REST), Zod validation | 🚧 |
+| Database | PostgreSQL (Supabase) + Drizzle ORM, SQL migrations | 🚧 |
+| Auth | Supabase Auth (email/password, invites, password reset) + roles checked by the API (JWT verified with JWKS) | ✅ |
 | Images | Cloudinary or Supabase Storage | 🔜 |
 | Payments | Mercado Pago (Pix, card, boleto) with webhooks | 🔜 |
 
@@ -144,7 +152,14 @@ can be deployed independently.
 │       └── patterns/         # Generated background pattern (SVG)
 ├── design/
 │   └── pattern/              # Source SVGs, layout.json and generator script
-├── api/                      # (planned) Express API
+├── api/                      # Express API
+│   ├── src/
+│   │   ├── db/schema.ts      # Tables: cats, cat_photos, users
+│   │   ├── db/seed.ts        # Example data
+│   │   ├── routes/cats.ts    # GET /cats, GET /cats/:slug
+│   │   ├── app.ts            # Express app (CORS, JSON, errors)
+│   │   └── env.ts            # Environment variables validated with Zod
+│   └── drizzle/              # Generated SQL migrations
 ├── LICENSE
 └── README.md
 ```
@@ -176,6 +191,39 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
 
+### Run the website with the API
+
+The adoption pages read the cats from the API, so start the API first (see below) and create
+`web/.env.local` with `API_URL=http://localhost:3333`.
+
+### Run the API locally
+
+```bash
+cd api
+cp .env.example .env      # then fill DATABASE_URL
+npm install
+npm run db:migrate        # create the tables
+npm run db:seed -- --apagar-tudo   # optional: example cats (deletes ALL cats first)
+npm run dev               # http://localhost:3333
+```
+
+| Endpoint | Description |
+|---|---|
+| `GET /health` | API and database status |
+| `GET /cats?status=disponivel` | Cats by status (`disponivel` or `adotado`), with photos |
+| `GET /cats/:slug` | One cat |
+| `POST /cats` | Create a cat (admin only) |
+| `PUT /cats/:id` | Edit a cat, including marking it as adopted (admin only) |
+| `GET /me` | Logged-in user (requires `Authorization: Bearer <token>`) |
+
+Give someone access (sends an invite email if they don't have an account yet):
+
+```bash
+npm run users:grant -- email@example.com "Name" admin   # or volunteer
+```
+
+**Why Drizzle?** The schema is plain TypeScript, migrations are readable SQL files versioned in git, and there is no generated client or native binary to download.
+
 ## Configuration
 
 ### Site content
@@ -190,6 +238,9 @@ change there updates the whole site.
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | No | Public URL used for absolute links (Open Graph, canonical, sitemap). Falls back to the Vercel production URL, then `http://localhost:3000`. |
 | `GOOGLE_SITE_VERIFICATION` | No | Google Search Console verification code (rendered as a meta tag). |
+| `NEXT_PUBLIC_API_URL` | Yes | Base URL of the API (`http://localhost:3333` locally). |
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL (login). |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Yes | Supabase publishable key (public by design). |
 
 More variables (API URL, database, payment keys) will be added as the backend is built.
 Secrets must **never** use the `NEXT_PUBLIC_` prefix.
@@ -248,11 +299,30 @@ duplicates objects across the tile edges so the pattern repeats without seams.
 - **Scroll-triggered counters.** `IntersectionObserver` starts the count once; numbers are
   updated straight in the DOM with `requestAnimationFrame` (no re-render per frame), the final
   value is in the server HTML for SEO, and screen readers only hear the final number.
+- **Data access layer for cats.** Pages call `getAvailableCats()` / `getCatBySlug()` in
+  `app/lib/cats.ts`; today they return example data, later they will call the API — no UI changes.
+- **Sorting and pagination in the URL** (`?ordem=nome&pagina=2`), so links can be shared and the
+  back button works. Page size follows the grid (16 on mobile, 6 on tablet, 8 on desktop).
+- **Static cat pages** generated with `generateStaticParams`, each with its own metadata and share
+  image, and included in the sitemap.
+- **Database security on Supabase.** Row Level Security is enabled on every table with no
+  policies, so Supabase's auto-generated public API can't read or write the data — only our API, connecting as the database owner, can.
+- **Authentication vs. authorization.** Supabase Auth handles accounts and sessions; the API
+  verifies each token's signature against Supabase's public keys (JWKS, via `jose`), checks issuer,
+  audience and expiry, then loads the user's role from our own `users` table. Accounts are
+  invite-only and roles live in our database, so access can be revoked at any time.
+- **CORS with wildcards** so Vercel preview deployments can call the API without opening it to
+  every site.
 - **No icon library.** Icons are small inline SVG components, so no extra dependency or request.
 
 ## Deployment
 
-The website is deployed on **Vercel** from the `main` branch:
+Both apps are deployed on **Vercel** as two projects from the same repository.
+
+**API** (`api/`, Express detected automatically): Root Directory `api`, environment variables
+`DATABASE_URL` (Supabase transaction pooler, port 6543), `DB_POOL_MAX=3` and `WEB_ORIGIN`.
+
+**Website** (`web/`):
 
 - **Root Directory:** `web`
 - Every push to `main` triggers a production deploy; every branch or pull request gets a preview URL.
@@ -269,12 +339,18 @@ The website is deployed on **Vercel** from the `main` branch:
 - [ ] "Como Ajudar" (how to help) section and dropdown options
   - [x] Volunteer page
   - [x] Donations page
+  - [x] Adoption listing and cat pages (with example data)
 - [x] Contact page
 - [ ] Search
 - [ ] Database and REST API
-- [ ] Volunteer login with role-based access (admin / volunteer)
-- [ ] Adoption listings: create, edit, mark as adopted, export to Excel
-- [ ] Individual cat pages with Open Graph images for sharing
+  - [x] Schema, migrations, seed and public read endpoints
+  - [x] Connect the website to the API (cached with `"use cache"` + `cacheTag("cats")`)
+  - [ ] Deploy the API
+- [x] Volunteer login with role-based access (admin / volunteer)
+- [x] Adoption listings: create, edit and mark as adopted (admin modal, photos in Supabase Storage)
+- [ ] "Happy endings" wall with adopted cats
+- [ ] Export adoption listings to Excel
+- [x] Individual cat pages with Open Graph images for sharing
 - [ ] Online store with Mercado Pago checkout
 - [ ] English version (i18n)
 - [ ] Custom domain
