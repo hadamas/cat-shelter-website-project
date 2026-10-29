@@ -1,6 +1,8 @@
 // Popula o banco com os gatinhos de EXEMPLO (os mesmos usados no site até agora).
-// Uso: npm run db:seed
-// ⚠️ Apaga todos os gatos existentes antes de inserir. Não rode em produção com dados reais.
+// Uso: npm run db:seed -- --apagar-tudo
+// ⚠️ Apaga TODOS os gatos existentes (inclusive os reais) antes de inserir os de exemplo.
+// Por segurança, só roda com a confirmação --apagar-tudo.
+import { count } from "drizzle-orm";
 import { db, pool } from "./index.js";
 import { catPhotos, cats } from "./schema.js";
 
@@ -33,7 +35,24 @@ const seeds: Seed[] = [
 const slugify = (s: string) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+const CONFIRM_FLAG = "--apagar-tudo";
+
 async function main() {
+  const [{ total }] = await db.select({ total: count() }).from(cats);
+
+  if (!process.argv.includes(CONFIRM_FLAG)) {
+    console.error(
+      [
+        "⛔ Seed cancelado: nada foi alterado.",
+        `   O banco tem ${total} gato(s) cadastrado(s). Este comando apagaria TODOS e colocaria os 20 de exemplo no lugar.`,
+        `   Se for isso mesmo, rode:  npm run db:seed -- ${CONFIRM_FLAG}`,
+      ].join("\n"),
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log(`⚠️  Apagando ${total} gato(s) e inserindo os de exemplo...`);
   await db.transaction(async (tx) => {
     await tx.delete(cats); // as fotos são apagadas junto (cascade)
 
@@ -49,11 +68,9 @@ async function main() {
           birthDate,
           arrivalDate,
           coatColor,
-          neutered: !untested,
-          vaccinated: true,
-          dewormed: true,
-          fiv: untested ? "nao_testado" : "negativo",
-          felv: untested ? "nao_testado" : "negativo",
+          vetCare: untested
+            ? [`Vacinad${a}`, `Vermifugad${a}`]
+            : [`Castrad${a}`, `Vacinad${a}`, `Vermifugad${a}`, "FIV negativo", "FeLV negativo"],
           story: `${name} chegou ao gatil depois de ser resgatad${a} da rua. Recebeu todos os cuidados e hoje está pront${a} para encontrar uma família. (Texto de exemplo: aqui entra a história real de cada gatinho.)`,
           traits,
         })
