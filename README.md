@@ -203,7 +203,7 @@ cd api
 cp .env.example .env      # then fill DATABASE_URL
 npm install
 npm run db:migrate        # create the tables
-npm run db:seed           # optional: example cats
+npm run db:seed -- --apagar-tudo   # optional: example cats (deletes ALL cats first)
 npm run dev               # http://localhost:3333
 ```
 
