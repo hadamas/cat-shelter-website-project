@@ -1,4 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
+import { apiUrl } from "./api";
 
 // Camada de dados dos gatinhos para adoção: busca na API (pasta api/ do projeto).
 // As páginas só usam getAvailableCats e getCatBySlug, sem saber de onde vêm os dados.
@@ -32,16 +33,6 @@ export type Cat = {
   traits: string[];
   status: "disponivel" | "adotado";
 };
-
-// Endereço da API. No computador: http://localhost:3333 (web/.env.local).
-// Na Vercel: variável de ambiente API_URL com o endereço da API publicada.
-function apiUrl(path: string) {
-  const base = process.env.API_URL;
-  if (!base) {
-    throw new Error("Defina a variável de ambiente API_URL (ex.: http://localhost:3333 no web/.env.local).");
-  }
-  return `${base.replace(/\/$/, "")}${path}`;
-}
 
 // As respostas ficam em cache (as páginas continuam estáticas e rápidas) e são
 // atualizadas a cada hora. A tag "cats" permitirá atualizar na hora, quando um

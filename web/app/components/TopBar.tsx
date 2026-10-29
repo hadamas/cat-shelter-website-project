@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { contactInfo, languages, loginHref, whatsappHref } from "@/app/lib/site";
+import { contactInfo, languages, whatsappHref } from "@/app/lib/site";
 import CopyPix from "./CopyPix";
-import { UserIcon, WhatsappIcon } from "./icons";
+import { WhatsappIcon } from "./icons";
+import UserMenu from "./auth/UserMenu";
 
 // Faixa discreta acima do header. Rola junto com a página;
 // só o Header principal fica fixo no topo.
@@ -31,15 +32,7 @@ export default function TopBar() {
         </div>
 
         <div className="flex shrink-0 items-center gap-3">
-          <Link
-            href={loginHref}
-            prefetch={false}
-            aria-label="Área do voluntário"
-            title="Área do voluntário"
-            className="grid size-7 place-items-center rounded-full transition-colors hover:bg-main-blue/10 hover:text-main-blue"
-          >
-            <UserIcon width={15} height={15} />
-          </Link>
+          <UserMenu />
           <span aria-hidden className="h-3 w-px bg-main-brown/20" />
           <ul className="flex items-center gap-1" aria-label="Idioma">
             {languages.map((lang) => {

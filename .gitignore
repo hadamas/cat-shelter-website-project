@@ -7,3 +7,7 @@ Thumbs.db
 
 # Imagens originais (antes da otimização)
 design/images-source/
+
+# Arquivos gerados pelo Next.js e dependências (em qualquer pasta)
+**/.next/
+**/node_modules/

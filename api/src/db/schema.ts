@@ -59,13 +59,13 @@ export const catPhotos = pgTable(
   (t) => [index("cat_photos_cat_idx").on(t.catId, t.position)],
 ).enableRLS();
 
-// ---------- Usuários (voluntários e admins) — login na próxima etapa ----------
+// ---------- Usuários com acesso ao site (voluntários e admins) ----------
+// O login (e-mail e senha) fica no Supabase Auth. Esta tabela guarda só quem tem
+// acesso e com qual papel. O `id` é o MESMO id do usuário no Supabase Auth.
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  /** nunca a senha em texto: só o hash */
-  passwordHash: text("password_hash").notNull(),
   role: roleEnum("role").notNull().default("volunteer"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }).enableRLS();

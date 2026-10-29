@@ -8,6 +8,13 @@
       "when": 1793206391734,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793228880647,
+      "tag": "0001_users_supabase_auth",
+      "breakpoints": true
     }
   ]
 }
