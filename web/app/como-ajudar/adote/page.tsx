@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import PageHeader from "@/app/components/PageHeader";
 import { Section } from "@/app/components/ui/Section";
 import CatCard from "@/app/components/adocao/CatCard";
+import { AddCatButton } from "@/app/components/adocao/admin/AdminCatButtons";
 import CatGallery, { GRID_CLASSES } from "@/app/components/adocao/CatGallery";
 import { DEFAULT_SORT, sortCats } from "@/app/components/adocao/sorting";
 import { adoptionIntro } from "@/app/content/adocao";
@@ -41,6 +42,7 @@ export default async function AdotePage() {
         breadcrumb={[{ label: "Como Ajudar", href: "/como-ajudar" }]}
       />
       <Section>
+        <AddCatButton />
         {cats.length === 0 ? (
           <p className="py-10 text-center text-main-brown/80">
             No momento todos os nossos gatinhos encontraram um lar! 🧡 Volte em breve.

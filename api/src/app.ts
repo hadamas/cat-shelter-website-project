@@ -12,7 +12,7 @@ app.use(corsMiddleware);
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (_req, res) => {
-  res.json({ name: "API Gatos de Francisca", docs: "GET /cats, GET /cats/:slug, GET /me, GET /health" });
+  res.json({ name: "API Gatos de Francisca", docs: "GET /cats, GET /cats/:slug, POST /cats, PUT /cats/:id, GET /me, GET /health" });
 });
 
 // Verifica se a API e o banco estão no ar (útil para a hospedagem monitorar).

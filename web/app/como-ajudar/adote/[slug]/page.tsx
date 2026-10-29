@@ -5,6 +5,7 @@ import PageHeader from "@/app/components/PageHeader";
 import ButtonLink from "@/app/components/ui/ButtonLink";
 import PhotoGallery from "@/app/components/adocao/PhotoGallery";
 import SexBadge from "@/app/components/adocao/SexBadge";
+import { EditCatButton } from "@/app/components/adocao/admin/AdminCatButtons";
 import {
   ArrowRightIcon,
   CakeIcon,
@@ -15,7 +16,7 @@ import {
   WhatsappIcon,
 } from "@/app/components/icons";
 import { adoptCta, adoptionFormUrl, adoptionWhatsappMessage } from "@/app/content/adocao";
-import { getAvailableCats, getCatBySlug, type Cat, type TestResult } from "@/app/lib/cats";
+import { getAvailableCats, getCatBySlug } from "@/app/lib/cats";
 import { formatMonths, monthsBetween } from "@/app/lib/dates";
 import { getToday } from "@/app/lib/today";
 import { whatsappHref } from "@/app/lib/site";
@@ -39,22 +40,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/como-ajudar/adote/${cat.slug}` },
     openGraph: { title, description, images: cat.photos[0] ? [{ url: cat.photos[0].src, alt: cat.photos[0].alt }] : undefined },
   };
-}
-
-// Concordância: castrada/castrado, vacinada/vacinado...
-const g = (cat: Cat, word: string) => `${word}${cat.sex === "F" ? "a" : "o"}`;
-
-function vetItems(cat: Cat) {
-  const test = (name: string, r: TestResult) =>
-    r === "nao_testado" ? { ok: false, text: `${name}: ainda não testad${cat.sex === "F" ? "a" : "o"}` } : { ok: r === "negativo", text: `${name} ${r}` };
-
-  return [
-    { ok: cat.vetCare.neutered, text: cat.vetCare.neutered ? g(cat, "Castrad") : `Ainda não ${g(cat, "castrad")}` },
-    { ok: cat.vetCare.vaccinated, text: cat.vetCare.vaccinated ? g(cat, "Vacinad") : "Vacinação pendente" },
-    { ok: cat.vetCare.dewormed, text: cat.vetCare.dewormed ? g(cat, "Vermifugad") : "Vermifugação pendente" },
-    test("FIV", cat.vetCare.fiv),
-    test("FeLV", cat.vetCare.felv),
-  ];
 }
 
 export default async function CatPage({ params }: Props) {
@@ -82,7 +67,10 @@ export default async function CatPage({ params }: Props) {
         <PhotoGallery photos={cat.photos} name={cat.name} />
 
         <div>
-          <SexBadge sex={cat.sex} showLabel />
+          <div className="flex items-center justify-between gap-3">
+            <SexBadge sex={cat.sex} showLabel />
+            <EditCatButton cat={cat} variant="full" />
+          </div>
 
           <dl className="mt-6 grid grid-cols-3 gap-2 sm:gap-3 md:grid-cols-1 lg:grid-cols-3">
             {facts.map(({ Icon, label, value }) => (
@@ -98,15 +86,13 @@ export default async function CatPage({ params }: Props) {
 
           <h2 className="mt-8 text-2xl text-main-blue">Cuidados veterinários</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {vetItems(cat).map((item) => (
+            {cat.vetCare.map((item) => (
               <li
-                key={item.text}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold ${
-                  item.ok ? "bg-main-blue/10 text-main-blue" : "bg-main-brown/[0.06] text-main-brown/70"
-                }`}
+                key={item}
+                className="inline-flex items-center gap-1.5 rounded-full bg-main-blue/10 px-3 py-1.5 text-sm font-semibold text-main-blue"
               >
-                {item.ok && <CheckIcon width={14} height={14} aria-hidden />}
-                {item.text}
+                <CheckIcon width={14} height={14} aria-hidden />
+                {item}
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { boolean, date, index, integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { date, index, integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 // Segurança: todas as tabelas têm RLS (Row Level Security) ligado e SEM políticas.
 // No Supabase, isso bloqueia o acesso direto pela API automática deles (chave "anon"):
@@ -7,7 +7,6 @@ import { boolean, date, index, integer, pgEnum, pgTable, text, timestamp, uuid }
 
 // ---------- Tipos (enums) ----------
 export const sexEnum = pgEnum("sex", ["F", "M"]);
-export const testResultEnum = pgEnum("test_result", ["negativo", "positivo", "nao_testado"]);
 export const catStatusEnum = pgEnum("cat_status", ["disponivel", "adotado"]);
 export const roleEnum = pgEnum("role", ["admin", "volunteer"]);
 
@@ -25,13 +24,11 @@ export const cats = pgTable(
     /** data de entrada no gatil (calcula o tempo esperando adoção) */
     arrivalDate: date("arrival_date", { mode: "string" }).notNull(),
     coatColor: text("coat_color").notNull().default(""),
-    neutered: boolean("neutered").notNull().default(false),
-    vaccinated: boolean("vaccinated").notNull().default(false),
-    dewormed: boolean("dewormed").notNull().default(false),
-    fiv: testResultEnum("fiv").notNull().default("nao_testado"),
-    felv: testResultEnum("felv").notNull().default("nao_testado"),
+    /** cuidados veterinários em texto livre, um por item. Ex.: ["Castrado", "FIV negativo"] */
+    vetCare: text("vet_care").array().notNull().default(sql`'{}'::text[]`),
     story: text("story").notNull().default(""),
     traits: text("traits").array().notNull().default(sql`'{}'::text[]`),
+    /** "adotado" tira o gato da listagem de adoção, mas ele continua salvo no banco */
     status: catStatusEnum("status").notNull().default("disponivel"),
     adoptedAt: date("adopted_at", { mode: "string" }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

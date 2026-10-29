@@ -49,11 +49,9 @@ async function main() {
           birthDate,
           arrivalDate,
           coatColor,
-          neutered: !untested,
-          vaccinated: true,
-          dewormed: true,
-          fiv: untested ? "nao_testado" : "negativo",
-          felv: untested ? "nao_testado" : "negativo",
+          vetCare: untested
+            ? [`Vacinad${a}`, `Vermifugad${a}`]
+            : [`Castrad${a}`, `Vacinad${a}`, `Vermifugad${a}`, "FIV negativo", "FeLV negativo"],
           story: `${name} chegou ao gatil depois de ser resgatad${a} da rua. Recebeu todos os cuidados e hoje está pront${a} para encontrar uma família. (Texto de exemplo: aqui entra a história real de cada gatinho.)`,
           traits,
         })

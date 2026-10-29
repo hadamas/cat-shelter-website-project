@@ -6,15 +6,18 @@ import { adoptCta, adoptionFormUrl } from "@/app/content/adocao";
 import type { Cat } from "@/app/lib/cats";
 import { formatMonths, monthsBetween } from "@/app/lib/dates";
 import SexBadge from "./SexBadge";
+import { EditCatButton } from "./admin/AdminCatButtons";
 
 // Card de um gatinho na listagem.
 // Foto, nome e "Conhecer" levam à página do gatinho; "Quero adotar" abre o formulário.
+// Admins veem também um botão de editar (lápis) sobre a foto.
 export default function CatCard({ cat, today }: { cat: Cat; today: string }) {
   const href = `/como-ajudar/adote/${cat.slug}`;
   const photo = cat.photos[0];
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-main-orange/20 bg-white transition hover:-translate-y-1 hover:shadow-lg">
+    <article className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-main-orange/20 bg-white transition hover:-translate-y-1 hover:shadow-lg">
+      <EditCatButton cat={cat} />
       <Link href={href} className="relative block aspect-square overflow-hidden bg-main-orange/10" tabIndex={-1} aria-hidden>
         {photo && (
           <Image

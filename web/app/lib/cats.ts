@@ -5,7 +5,6 @@ import { apiUrl } from "./api";
 // As páginas só usam getAvailableCats e getCatBySlug, sem saber de onde vêm os dados.
 
 export type Sex = "F" | "M";
-export type TestResult = "negativo" | "positivo" | "nao_testado";
 
 export type CatPhoto = { src: string; alt: string };
 
@@ -22,21 +21,16 @@ export type Cat = {
   coatColor: string;
   /** a primeira foto é a principal (card) */
   photos: CatPhoto[];
-  vetCare: {
-    neutered: boolean;
-    vaccinated: boolean;
-    dewormed: boolean;
-    fiv: TestResult;
-    felv: TestResult;
-  };
+  /** cuidados veterinários, um por item. Ex.: ["Castrado", "FIV negativo"] */
+  vetCare: string[];
   story: string;
   traits: string[];
   status: "disponivel" | "adotado";
 };
 
 // As respostas ficam em cache (as páginas continuam estáticas e rápidas) e são
-// atualizadas a cada hora. A tag "cats" permitirá atualizar na hora, quando um
-// admin incluir, editar ou excluir um gato.
+// atualizadas a cada hora. Quando um admin cadastra ou edita um gato, a tag
+// "cats" é atualizada na hora (ver lib/refresh-cats.ts).
 export async function getAvailableCats(): Promise<Cat[]> {
   "use cache";
   cacheLife("hours");

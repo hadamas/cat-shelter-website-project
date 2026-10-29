@@ -73,6 +73,10 @@ existing visual identity.
 - **Adoption page**: cat cards (photo, name, sex, age and time at the shelter calculated from
   dates) with sorting and responsive pagination kept in the URL, plus a page for each cat with a
   photo gallery, vet care, story and personality traits
+- **Admin panel for adoption listings**: admins add and edit cats in a modal (photo upload with
+  automatic resizing to WebP, date pickers, tag inputs for vet care and personality, story with a
+  character counter, "adopted" switch). Adopted cats leave the listing but stay in the database
+  (there is no delete). Pages update instantly through on-demand cache revalidation
 - **Login for volunteers and admins**: sign in, forgot/reset password, invite-only accounts, and a user menu in the top bar with name and role
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
@@ -208,6 +212,8 @@ npm run dev               # http://localhost:3333
 | `GET /health` | API and database status |
 | `GET /cats?status=disponivel` | Cats by status (`disponivel` or `adotado`), with photos |
 | `GET /cats/:slug` | One cat |
+| `POST /cats` | Create a cat (admin only) |
+| `PUT /cats/:id` | Edit a cat, including marking it as adopted (admin only) |
 | `GET /me` | Logged-in user (requires `Authorization: Bearer <token>`) |
 
 Give someone access (sends an invite email if they don't have an account yet):
@@ -341,7 +347,9 @@ Both apps are deployed on **Vercel** as two projects from the same repository.
   - [x] Connect the website to the API (cached with `"use cache"` + `cacheTag("cats")`)
   - [ ] Deploy the API
 - [x] Volunteer login with role-based access (admin / volunteer)
-- [ ] Adoption listings: create, edit, mark as adopted, export to Excel
+- [x] Adoption listings: create, edit and mark as adopted (admin modal, photos in Supabase Storage)
+- [ ] "Happy endings" wall with adopted cats
+- [ ] Export adoption listings to Excel
 - [x] Individual cat pages with Open Graph images for sharing
 - [ ] Online store with Mercado Pago checkout
 - [ ] English version (i18n)
