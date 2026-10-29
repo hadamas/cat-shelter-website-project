@@ -246,9 +246,9 @@ export default function CatFormModal({
       onClick={(e) => e.target === dialogRef.current && requestClose()} // clique fora da aba
       className="m-auto max-h-[92dvh] outline-none w-[calc(100%-1.5rem)] max-w-2xl overflow-hidden rounded-3xl bg-white p-0 text-main-brown shadow-2xl backdrop:bg-main-brown/50 backdrop:backdrop-blur-[2px] open:flex open:flex-col"
     >
-      <form onSubmit={handleSubmit} noValidate className="flex min-h-0 flex-1 flex-col">
+      <form onSubmit={handleSubmit} noValidate className="flex min-h-0 flex-auto flex-col">
         {/* Cabeçalho */}
-        <header className="flex items-center justify-between gap-4 border-b border-main-orange/20 px-5 py-4 sm:px-7">
+        <header className="flex shrink-0 items-center justify-between gap-4 border-b border-main-orange/20 px-5 py-4 sm:px-7">
           <h2 id={id("title")} className="truncate text-2xl text-main-blue sm:text-3xl">
             {editing ? `Editar ${cat!.name}` : "Cadastrar gatinho"}
           </h2>
@@ -262,8 +262,10 @@ export default function CatFormModal({
           </button>
         </header>
 
-        {/* Campos (com rolagem própria quando não cabem na tela) */}
-        <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain px-5 py-6 sm:px-7">
+        {/* Campos (com rolagem própria quando não cabem na tela).
+          "flex-auto" (e não "flex-1"): no Safari/iPhone, flex-1 dentro de uma caixa
+          que só tem altura máxima faz o conteúdo encolher até sumir. */}
+        <div className="min-h-0 flex-auto space-y-6 overflow-y-auto overscroll-contain px-5 py-6 sm:px-7">
           <Field id={id("photos")} label="Fotos" error={errors.photos}>
             <PhotoPicker
               id={id("photos")}
@@ -460,7 +462,7 @@ export default function CatFormModal({
         </div>
 
         {/* Rodapé com as ações */}
-        <footer className="border-t border-main-orange/20 px-5 py-4 sm:px-7">
+        <footer className="shrink-0 border-t border-main-orange/20 px-5 py-4 sm:px-7">
           {saveError && (
             <p role="alert" className="mb-3 rounded-xl bg-[#e2557a]/10 px-4 py-2.5 text-sm text-[#b3304f]">
               {saveError}
