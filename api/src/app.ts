@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import { db } from "./db/index.js";
 import { catsRouter } from "./routes/cats.js";
 import { meRouter } from "./routes/me.js";
+import { productsRouter } from "./routes/products.js";
 import { corsMiddleware } from "./lib/cors.js";
 
 export const app = express();
@@ -12,7 +13,7 @@ app.use(corsMiddleware);
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (_req, res) => {
-  res.json({ name: "API Gatos de Francisca", docs: "GET /cats, GET /cats/:slug, POST /cats, PUT /cats/:id, GET /me, GET /health" });
+  res.json({ name: "API Gatos de Francisca", docs: "GET /cats, GET /cats/:slug, POST /cats, PUT /cats/:id, GET /products, GET /products/:slug, POST /products, PUT /products/:id, DELETE /products/:id, GET /me, GET /health" });
 });
 
 // Verifica se a API e o banco estão no ar (útil para a hospedagem monitorar).
@@ -22,6 +23,7 @@ app.get("/health", async (_req, res) => {
 });
 
 app.use("/cats", catsRouter);
+app.use("/products", productsRouter);
 app.use("/me", meRouter);
 
 app.use((_req, res) => {
