@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import PageHeader from "@/app/components/PageHeader";
+import DetailSkeleton from "@/app/components/ui/DetailSkeleton";
 import ButtonLink from "@/app/components/ui/ButtonLink";
 import PhotoGallery from "@/app/components/adocao/PhotoGallery";
 import SexBadge from "@/app/components/adocao/SexBadge";
@@ -24,9 +26,11 @@ import { whatsappHref } from "@/app/lib/site";
 type Props = { params: Promise<{ slug: string }> };
 
 // Gera uma página estática para cada gatinho disponível.
+// Com a lista vazia, devolve um endereço provisório (que dá 404): o Next.js
+// exige pelo menos um item aqui, senão o build falha.
 export async function generateStaticParams() {
   const cats = await getAvailableCats();
-  return cats.map((c) => ({ slug: c.slug }));
+  return cats.length ? cats.map((c) => ({ slug: c.slug })) : [{ slug: "sem-gatos" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -42,7 +46,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CatPage({ params }: Props) {
+// O endereço (params) é lido dentro do <Suspense>: ao navegar para um gatinho,
+// o esqueleto aparece na hora enquanto os dados chegam.
+export default function CatPage({ params }: Props) {
+  return (
+    <Suspense fallback={<DetailSkeleton label="Carregando gatinho" />}>
+      <CatContent params={params} />
+    </Suspense>
+  );
+}
+
+async function CatContent({ params }: Props) {
   const [cat, today] = await Promise.all([getCatBySlug((await params).slug), getToday()]);
   if (!cat || cat.status !== "disponivel") notFound();
 

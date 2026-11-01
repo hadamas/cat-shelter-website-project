@@ -3,11 +3,12 @@
 import { updateTag } from "next/cache";
 import { apiUrl } from "./api";
 
-// Atualiza na hora as páginas de adoção depois que um admin cadastra ou edita
-// um gato (sem esperar a hora do cache vencer).
+// Atualiza na hora as páginas do site depois que um admin cadastra, edita ou
+// exclui algo (sem esperar o cache vencer).
+// "cats": páginas de adoção. "products": páginas da Lojinha.
 // Confere na API se o token é mesmo de um admin: assim ninguém de fora
 // consegue forçar a atualização do cache.
-export async function refreshCats(token: string): Promise<boolean> {
+export async function refreshCache(token: string, tag: "cats" | "products"): Promise<boolean> {
   try {
     const res = await fetch(apiUrl("/me"), { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" });
     if (!res.ok) return false;
@@ -16,6 +17,6 @@ export async function refreshCats(token: string): Promise<boolean> {
   } catch {
     return false;
   }
-  updateTag("cats");
+  updateTag(tag);
   return true;
 }
