@@ -77,6 +77,10 @@ existing visual identity.
   automatic resizing to WebP, date pickers, tag inputs for vet care and personality, story with a
   character counter, "adopted" switch). Adopted cats leave the listing but stay in the database
   (there is no delete). Pages update instantly through on-demand cache revalidation
+- **Shop ("Lojinha")**: product cards with swipeable photos, limited-edition tag, sale prices,
+  sorting, a page for each product (color/size options, quantity, stock warnings) and a shopping
+  bag saved in the browser, with a floating button and a side drawer. Admins add, edit and delete
+  products in a modal (photos, price input formatted as you type, stock, options as tags)
 - **Login for volunteers and admins**: sign in, forgot/reset password, invite-only accounts, and a user menu in the top bar with name and role
 - **Top bar** with tagline, WhatsApp link, Pix donation key (click to copy) and language switcher
 - **Navigation** with a CSS-only dropdown (hover and keyboard accessible) and a mobile menu
@@ -102,7 +106,7 @@ See the [roadmap](#roadmap).
 | Database | PostgreSQL (Supabase) + Drizzle ORM, SQL migrations | 🚧 |
 | Auth | Supabase Auth (email/password, invites, password reset) + roles checked by the API (JWT verified with JWKS) | ✅ |
 | Images | Cloudinary or Supabase Storage | 🔜 |
-| Payments | Mercado Pago (Pix, card, boleto) with webhooks | 🔜 |
+| Payments | InfinitePay checkout (Pix and credit card) with webhooks | 🔜 |
 
 **Why PostgreSQL instead of NoSQL?** The data is highly relational — users with roles, cats with
 photos and adoption status, products, orders and order items. The store needs transactions
@@ -118,7 +122,7 @@ flowchart LR
     W -->|REST| API[Express API]
     API --> DB[(PostgreSQL)]
     API --> IMG[Image storage]
-    W -->|checkout| MP[Mercado Pago]
+    W -->|checkout| MP[InfinitePay]
     MP -->|webhook| API
 ```
 
@@ -214,6 +218,11 @@ npm run dev               # http://localhost:3333
 | `GET /cats/:slug` | One cat |
 | `POST /cats` | Create a cat (admin only) |
 | `PUT /cats/:id` | Edit a cat, including marking it as adopted (admin only) |
+| `GET /products` | All shop products, with photos |
+| `GET /products/:slug` | One product |
+| `POST /products` | Create a product (admin only) |
+| `PUT /products/:id` | Edit a product (admin only) |
+| `DELETE /products/:id` | Delete a product (admin only) |
 | `GET /me` | Logged-in user (requires `Authorization: Bearer <token>`) |
 
 Give someone access (sends an invite email if they don't have an account yet):
@@ -351,7 +360,9 @@ Both apps are deployed on **Vercel** as two projects from the same repository.
 - [ ] "Happy endings" wall with adopted cats
 - [ ] Export adoption listings to Excel
 - [x] Individual cat pages with Open Graph images for sharing
-- [ ] Online store with Mercado Pago checkout
+- [ ] Online store
+  - [x] Products, product pages, shopping bag and admin management
+  - [ ] Checkout with InfinitePay (Pix and credit card), customer accounts, orders and email notifications
 - [ ] English version (i18n)
 - [ ] Custom domain
 - [x] Sitemap, robots.txt, Open Graph image and structured data

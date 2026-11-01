@@ -11,7 +11,7 @@ import {
 } from "@/app/content/adocao";
 import { deleteCatPhotos, saveCat, uploadCatPhoto, type CatInput } from "@/app/lib/admin-cats";
 import type { Cat, Sex } from "@/app/lib/cats";
-import { refreshCats } from "@/app/lib/refresh-cats";
+import { refreshCache } from "@/app/lib/refresh-cache";
 import { Field } from "./Field";
 import PhotoPicker, { type PhotoItem } from "./PhotoPicker";
 import TagInput from "./TagInput";
@@ -217,7 +217,7 @@ export default function CatFormModal({
       // 3. apaga do Storage as fotos que saíram e atualiza as páginas do site
       const kept = new Set(photos.map((p) => p.url));
       await deleteCatPhotos((cat?.photos ?? []).map((p) => p.src).filter((u) => !kept.has(u)));
-      await refreshCats(token);
+      await refreshCache(token, "cats");
       onSaved(result.cat);
     } catch (err) {
       console.error(err);

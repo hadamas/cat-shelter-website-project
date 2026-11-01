@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { date, index, integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, date, index, integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 // Segurança: todas as tabelas têm RLS (Row Level Security) ligado e SEM políticas.
 // No Supabase, isso bloqueia o acesso direto pela API automática deles (chave "anon"):
@@ -67,8 +67,51 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }).enableRLS();
 
+// ---------- Lojinha: produtos ----------
+export const products = pgTable("products", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  /** usado no endereço da página do produto: /lojinha/{slug} */
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description").notNull().default(""),
+  /** preço em centavos (R$ 25,90 = 2590): evita erros de arredondamento */
+  priceCents: integer("price_cents").notNull(),
+  /** preço promocional em centavos; null = sem promoção */
+  salePriceCents: integer("sale_price_cents"),
+  limitedEdition: boolean("limited_edition").notNull().default(false),
+  /** opções que o comprador escolhe; lista vazia = "Única" */
+  colors: text("colors").array().notNull().default(sql`'{}'::text[]`),
+  sizes: text("sizes").array().notNull().default(sql`'{}'::text[]`),
+  /** quantidade disponível; 0 = esgotado */
+  stock: integer("stock").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+}).enableRLS();
+
+export const productPhotos = pgTable(
+  "product_photos",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    productId: uuid("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    url: text("url").notNull(),
+    alt: text("alt").notNull().default(""),
+    position: integer("position").notNull().default(0),
+  },
+  (t) => [index("product_photos_product_idx").on(t.productId, t.position)],
+).enableRLS();
+
 // ---------- Relações (para buscar o gato já com as fotos) ----------
 export const catsRelations = relations(cats, ({ many }) => ({ photos: many(catPhotos) }));
 export const catPhotosRelations = relations(catPhotos, ({ one }) => ({
   cat: one(cats, { fields: [catPhotos.catId], references: [cats.id] }),
+}));
+
+export const productsRelations = relations(products, ({ many }) => ({ photos: many(productPhotos) }));
+export const productPhotosRelations = relations(productPhotos, ({ one }) => ({
+  product: one(products, { fields: [productPhotos.productId], references: [products.id] }),
 }));

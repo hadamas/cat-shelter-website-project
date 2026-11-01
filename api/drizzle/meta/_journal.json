@@ -36,6 +36,20 @@
       "when": 1793240092187,
       "tag": "0004_storage_cat_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793552694898,
+      "tag": "0005_lojinha_products",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793552696540,
+      "tag": "0006_storage_product_photos",
+      "breakpoints": true
     }
   ]
 }

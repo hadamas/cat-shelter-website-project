@@ -24,7 +24,6 @@ export type NavItem = { label: string; href: string; description?: string };
 export const comoAjudarItems: NavItem[] = [
   { label: "Adote um gatinho", href: "/como-ajudar/adote", description: "Conheça os gatos que esperam por um lar." },
   { label: "Seja voluntário", href: "/como-ajudar/voluntariado", description: "Doe seu tempo e talento ao gatil." },
-  { label: "Lojinha", href: "/como-ajudar/lojinha", description: "Compre produtos e ajude a manter o gatil." },
   { label: "Doações", href: "/como-ajudar/doacao", description: "Contribua com Pix, ração ou outros itens." },
   { label: "Contas", href: "/como-ajudar/contas", description: "Veja como os recursos são usados." },
 ];
@@ -33,6 +32,7 @@ export const navItems: (NavItem & { children?: NavItem[] })[] = [
   { label: "Home", href: "/" },
   { label: "Quem Somos", href: "/quem-somos" },
   { label: "Como Ajudar", href: "/como-ajudar", children: comoAjudarItems },
+  { label: "Lojinha", href: "/lojinha" },
   { label: "Contato", href: "/contato" },
 ];
 

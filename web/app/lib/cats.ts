@@ -30,7 +30,7 @@ export type Cat = {
 
 // As respostas ficam em cache (as páginas continuam estáticas e rápidas) e são
 // atualizadas a cada hora. Quando um admin cadastra ou edita um gato, a tag
-// "cats" é atualizada na hora (ver lib/refresh-cats.ts).
+// "cats" é atualizada na hora (ver lib/refresh-cache.ts).
 export async function getAvailableCats(): Promise<Cat[]> {
   "use cache";
   cacheLife("hours");

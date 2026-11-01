@@ -13,6 +13,7 @@
   --color-main-orange: #fb9d45;
   --color-main-blue: #0095d2;
   --color-main-brown: #5c2e0e; /* contorno do logo — bom para textos */
+  --color-shop-sale: #d1490b; /* preço promocional da Lojinha (laranja escuro, legível no branco) */
 
   /* Fontes: font-sans (textos) e font-display (logo/títulos) */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
@@ -95,5 +96,15 @@ textarea,
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Aba lateral da sacola entrando pela direita */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
